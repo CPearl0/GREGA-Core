@@ -1,0 +1,29 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+issueTrackerURL="https://github.com/CPearl0/GREGA-Core/issues"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+displayURL="https://github.com/CPearl0/GREGA-Core"
+authors="CPearl0"
+description='''
+Core and customization mod for GREGA (GREGA's Ritual, Energy, Gears and Applied).
+各类格雷科技整合包的 Core / 魔改模组。
+'''
+
+[[dependencies.${mod_id}]]
+modId="neoforge"
+type="required"
+versionRange="[${neo_version},)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="minecraft"
+type="required"
+versionRange="${minecraft_version_range}"
+ordering="NONE"
+side="BOTH"
