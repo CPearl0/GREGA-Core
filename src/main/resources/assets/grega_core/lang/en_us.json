@@ -1,1 +1,25 @@
-{}
+{
+  "block.grega_core.steam_inscriber": "Steam Inscriber",
+  "grega_core.inscriber.tooltip": "Steam-powered AE processor production; reusable presses, red alloy plates; keep the rear vent clear.",
+  "grega_core.germanium.tooltip": "Alien technology: collectible, but incompatible with human inscribing and crafting.",
+  "grega_core.laminated.tooltip": "GREGA milestone placeholder. Survival recipes and downstream integration are planned.",
+  "grega_core.book.tooltip": "Sneak-use: obsidian = portal; bed = bind home; crafting table = home; moss block = overworld RTP.",
+  "grega_core.travel.portal_opened": "The spell book has opened the portal.",
+  "grega_core.travel.portal_frame": "Aim at the inside face of a complete obsidian portal frame.",
+  "grega_core.travel.home_bound": "Home bound near this bed.",
+  "grega_core.travel.no_home": "First sneak-use a bed with your spell book to bind home.",
+  "grega_core.travel.home_arrived": "Your spell book has brought you home.",
+  "grega_core.travel.rtp_arrived": "Your spell book has found a new place to explore.",
+  "grega_core.travel.unsafe": "No safe arrival point found. Clear the area or try again shortly.",
+  "grega_core.travel.cooldown": "Travel magic is recharging (60 seconds after a successful trip).",
+  "grega_core.travel.overworld_only": "Bind home and use random travel in the Overworld.",
+  "grega_core.travel.overworld_or_nether": "Nether portals can be opened in the Overworld or Nether.",
+  "grega_core.travel.unavailable": "Dismount and wake up before using travel magic.",
+  "item.grega_core.basic_electronic_component": "Basic Electronic Circuit Component",
+  "item.grega_core.germanium_press": "Germanium Inscriber Press",
+  "item.grega_core.laminated_nano_processor": "Laminated Nano Processor",
+  "item.grega_core.laminated_nano_processor_assembly": "Laminated Nano Processor Assembly",
+  "item.grega_core.laminated_nano_processor_computer": "Laminated Nano Processor Computer",
+  "item.grega_core.laminated_nano_processor_mainframe": "Laminated Nano Processor Mainframe",
+  "recipe_type.grega_core.inscribing": "Inscribing"
+}

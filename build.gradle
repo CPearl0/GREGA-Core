@@ -36,8 +36,26 @@ runs {
     }
 }
 
+repositories {
+    maven { url = 'https://api.modrinth.com/maven' }
+}
+
+// GTM embeds these API libraries in its published jar. Expose that exact set to javac.
+configurations { gtBundle }
+def gtLibraries = tasks.register('extractGTCompileLibraries', Sync) {
+    from({ zipTree(configurations.gtBundle.singleFile) }) {
+        include 'META-INF/jarjar/*.jar'
+        eachFile { path = name }
+        includeEmptyDirs = false
+    }
+    into layout.buildDirectory.dir('gt-compile-libraries')
+}
+
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
+    implementation 'maven.modrinth:gregtechceu-modern:iFPVZs0V'
+    gtBundle 'maven.modrinth:gregtechceu-modern:iFPVZs0V'
+    compileOnly files(gtLibraries).asFileTree.matching { include '*.jar' }
 }
 
 tasks.withType(ProcessResources).configureEach {

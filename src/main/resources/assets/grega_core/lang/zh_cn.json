@@ -1,1 +1,25 @@
-{}
+{
+  "block.grega_core.steam_inscriber": "蒸汽压印机",
+  "grega_core.inscriber.tooltip": "以蒸汽制作 AE 处理器；模板不消耗，组装使用红色合金板；保持背面排气口畅通。",
+  "grega_core.germanium.tooltip": "外星工艺：可以收藏，但无法用于人类的压印或合成。",
+  "grega_core.laminated.tooltip": "GREGA 里程碑占位物品，生存配方及后续电路接入尚待实现。",
+  "grega_core.book.tooltip": "潜行右键：黑曜石开门，床绑定家，工作台回家，苔藓块在主世界随机传送。",
+  "grega_core.travel.portal_opened": "法术书已开启下界门。",
+  "grega_core.travel.portal_frame": "请对完整黑曜石门框的内侧使用法术书。",
+  "grega_core.travel.home_bound": "已在床边绑定家。",
+  "grega_core.travel.no_home": "请先持法术书潜行右键床来绑定家。",
+  "grega_core.travel.home_arrived": "法术书已带你回家。",
+  "grega_core.travel.rtp_arrived": "法术书已为你找到新的探索地点。",
+  "grega_core.travel.unsafe": "未找到安全落点，请清理家附近空间或稍后重试。",
+  "grega_core.travel.cooldown": "传送法术正在冷却（成功传送后 60 秒）。",
+  "grega_core.travel.overworld_only": "绑定家与随机传送仅可在主世界使用。",
+  "grega_core.travel.overworld_or_nether": "只能在主世界或下界开启下界门。",
+  "grega_core.travel.unavailable": "请下坐骑并起床后使用传送法术。",
+  "item.grega_core.basic_electronic_component": "基础电子电路部件",
+  "item.grega_core.germanium_press": "锗压印模板",
+  "item.grega_core.laminated_nano_processor": "叠层纳米处理器",
+  "item.grega_core.laminated_nano_processor_assembly": "叠层纳米处理器集群",
+  "item.grega_core.laminated_nano_processor_computer": "叠层纳米处理器计算机",
+  "item.grega_core.laminated_nano_processor_mainframe": "叠层纳米处理器主机",
+  "recipe_type.grega_core.inscribing": "压印"
+}
