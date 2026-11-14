@@ -1,0 +1,10 @@
+{
+  "item.gtceu.micro_processor.tooltip.1": "§eLV-Tier Circuit",
+  "item.gtceu.micro_processor_assembly.tooltip.1": "§eMV-Tier Circuit",
+  "item.gtceu.micro_processor_computer.tooltip.1": "§eHV-Tier Circuit",
+  "item.gtceu.micro_processor_mainframe.tooltip.1": "§eEV-Tier Circuit",
+  "item.gtceu.nano_processor.tooltip.1": "§eMV-Tier Circuit",
+  "item.gtceu.nano_processor_assembly.tooltip.1": "§eHV-Tier Circuit",
+  "item.gtceu.nano_processor_computer.tooltip.1": "§eEV-Tier Circuit",
+  "item.gtceu.nano_processor_mainframe.tooltip.1": "§eIV-Tier Circuit"
+}

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "gtceu:micro_processor"
+  ],
+  "remove": [
+    "gtceu:microchip_processor"
+  ]
+}

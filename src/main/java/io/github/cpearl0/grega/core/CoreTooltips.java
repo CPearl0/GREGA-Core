@@ -9,15 +9,18 @@ public final class CoreTooltips {
 
     public static void add(ItemTooltipEvent event) {
         var id = BuiltInRegistries.ITEM.getKey(event.getItemStack().getItem());
-        if (id.getNamespace().equals(GregaCore.MOD_ID)) {
-            if (id.getPath().equals("germanium_press")) {
-                event.getToolTip().add(Component.translatable("grega_core.germanium.tooltip"));
-            } else if (id.getPath().startsWith("laminated_nano_")) {
-                event.getToolTip().add(Component.translatable("grega_core.laminated.tooltip"));
-            }
-        } else if (id.getNamespace().equals("ars_nouveau") && (id.getPath().equals("novice_spell_book")
-                || id.getPath().equals("apprentice_spell_book") || id.getPath().equals("archmage_spell_book"))) {
-            event.getToolTip().add(Component.translatable("grega_core.book.tooltip"));
+        if (!id.getNamespace().equals(GregaCore.MOD_ID)) return;
+        if (id.getPath().equals("germanium_press")) {
+            event.getToolTip().add(Component.translatable("grega_core.germanium.tooltip"));
+        } else if (id.getPath().startsWith("laminated_nano_")) {
+            event.getToolTip().add(Component.translatable("grega_core.laminated.tooltip"));
+            String tier = switch (id.getPath()) {
+                case "laminated_nano_processor" -> "HV";
+                case "laminated_nano_processor_assembly" -> "EV";
+                case "laminated_nano_processor_computer" -> "IV";
+                default -> "LuV";
+            };
+            event.getToolTip().add(Component.translatable("grega_core.circuit.rating", tier));
         }
     }
 }

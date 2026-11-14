@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "gtceu:micro_processor_assembly",
+    "gtceu:nano_processor"
+  ],
+  "remove": [
+    "gtceu:micro_processor"
+  ]
+}

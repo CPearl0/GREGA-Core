@@ -2,42 +2,32 @@ package io.github.cpearl0.grega.core;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.portal.PortalShape;
+import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.Set;
 
-/** Sneak-use gestures augment the existing Ars books; no commands or extra casting items. */
-public final class BookTravel {
+/** Server-side operations called only by the registered Ars effects. */
+public final class TravelMagic {
+    public enum Action { SET_HOME, HOME, RTP }
+    // Keep existing saves' homes and cooldowns when upgrading from gesture travel.
     private static final String DATA = "grega_book_travel";
     private static final long COOLDOWN = 20 * 60;
     private static final ThreadLocal<Boolean> OPENING_PORTAL = ThreadLocal.withInitial(() -> false);
-    private static final Set<String> BOOKS = Set.of("novice_spell_book", "apprentice_spell_book", "archmage_spell_book");
 
-    private BookTravel() {}
-
-    private static boolean isBook(ItemStack stack) {
-        var id = BuiltInRegistries.ITEM.getKey(stack.getItem());
-        return id.getNamespace().equals("ars_nouveau") && BOOKS.contains(id.getPath());
-    }
+    private TravelMagic() {}
 
     public static void portalSpawn(BlockEvent.PortalSpawnEvent event) {
-        // Also blocks lava/fire charges/dispensers and GT lighters from bypassing the book.
         if (!OPENING_PORTAL.get()) event.setCanceled(true);
     }
 
@@ -46,44 +36,39 @@ public final class BookTravel {
         if (data.contains(DATA)) event.getEntity().getPersistentData().put(DATA, data.getCompound(DATA).copy());
     }
 
-    public static void interact(PlayerInteractEvent.RightClickBlock event) {
-        if (event.getHand() != InteractionHand.MAIN_HAND || !event.getEntity().isShiftKeyDown()
-                || !isBook(event.getItemStack())) return;
-        var state = event.getLevel().getBlockState(event.getPos());
-        boolean portal = state.is(Blocks.OBSIDIAN);
-        boolean bind = state.getBlock() instanceof BedBlock;
-        boolean home = state.is(Blocks.CRAFTING_TABLE);
-        boolean random = state.is(Blocks.MOSS_BLOCK);
-        if (!portal && !bind && !home && !random) return;
-        event.setCanceled(true);
-        event.setCancellationResult(InteractionResult.SUCCESS);
-        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+    public static void openPortal(ServerPlayer player, BlockHitResult hit) {
+        ServerLevel level = player.serverLevel();
+        if (level.dimension() != Level.OVERWORLD && level.dimension() != Level.NETHER) {
+            message(player, "overworld_or_nether");
+            return;
+        }
+        if (!level.getBlockState(hit.getBlockPos()).is(Blocks.OBSIDIAN)
+                || !level.mayInteract(player, hit.getBlockPos())) {
+            message(player, "portal_frame");
+            return;
+        }
+        BlockPos inside = hit.getBlockPos().relative(hit.getDirection());
+        OPENING_PORTAL.set(true);
+        try {
+            var shape = PortalShape.findEmptyPortalShape(level, inside, Direction.Axis.X);
+            if (shape.isEmpty()) shape = PortalShape.findEmptyPortalShape(level, inside, Direction.Axis.Z);
+            if (shape.isPresent()) {
+                shape.get().createPortalBlocks();
+                message(player, "portal_opened");
+            } else message(player, "portal_frame");
+        } finally {
+            OPENING_PORTAL.remove();
+        }
+    }
+
+    public static void travel(ServerPlayer player, Action action) {
         ServerLevel level = player.serverLevel();
         if (player.isPassenger() || player.isSleeping()) {
             message(player, "unavailable");
             return;
         }
-        if (portal) {
-            if (level.dimension() != Level.OVERWORLD && level.dimension() != Level.NETHER) {
-                message(player, "overworld_or_nether");
-                return;
-            }
-            BlockPos inside = event.getPos().relative(event.getFace());
-            OPENING_PORTAL.set(true);
-            try {
-                var shape = PortalShape.findEmptyPortalShape(level, inside, Direction.Axis.X);
-                if (shape.isEmpty()) shape = PortalShape.findEmptyPortalShape(level, inside, Direction.Axis.Z);
-                if (shape.isPresent()) {
-                    shape.get().createPortalBlocks();
-                    message(player, "portal_opened");
-                } else message(player, "portal_frame");
-            } finally {
-                OPENING_PORTAL.remove();
-            }
-            return;
-        }
         CompoundTag data = player.getPersistentData().getCompound(DATA);
-        if (bind) {
+        if (action == Action.SET_HOME) {
             if (level.dimension() != Level.OVERWORLD) {
                 message(player, "overworld_only");
                 return;
@@ -102,7 +87,7 @@ public final class BookTravel {
         }
         ServerLevel target = player.server.overworld();
         BlockPos destination = null;
-        if (home) {
+        if (action == Action.HOME) {
             if (!data.contains("home")) { message(player, "no_home"); return; }
             BlockPos saved = BlockPos.of(data.getLong("home"));
             target.getChunk(saved);
@@ -136,11 +121,12 @@ public final class BookTravel {
             player.fallDistance = 0;
             data.putLong("ready_at", now + COOLDOWN);
             player.getPersistentData().put(DATA, data);
-            message(player, home ? "home_arrived" : "rtp_arrived");
+            message(player, action == Action.HOME ? "home_arrived" : "rtp_arrived");
         }
     }
 
     private static BlockPos nearbySafe(ServerLevel level, ServerPlayer player, BlockPos origin) {
+        if (safe(level, player, origin)) return origin;
         for (int dy = 0; dy <= 2; dy++) {
             for (int dx = -2; dx <= 2; dx++) {
                 for (int dz = -2; dz <= 2; dz++) {

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "grega_core:laminated_nano_processor_mainframe"
+  ],
+  "remove": [
+    "gtceu:nano_processor_mainframe"
+  ]
+}

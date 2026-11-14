@@ -1,0 +1,10 @@
+{
+  "item.gtceu.micro_processor.tooltip.1": "§eLV级电路",
+  "item.gtceu.micro_processor_assembly.tooltip.1": "§eMV级电路",
+  "item.gtceu.micro_processor_computer.tooltip.1": "§eHV级电路",
+  "item.gtceu.micro_processor_mainframe.tooltip.1": "§eEV级电路",
+  "item.gtceu.nano_processor.tooltip.1": "§eMV级电路",
+  "item.gtceu.nano_processor_assembly.tooltip.1": "§eHV级电路",
+  "item.gtceu.nano_processor_computer.tooltip.1": "§eEV级电路",
+  "item.gtceu.nano_processor_mainframe.tooltip.1": "§eIV级电路"
+}

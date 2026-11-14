@@ -17,8 +17,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTab.TabVisibility;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 import static io.github.cpearl0.grega.core.GregaAddon.REGISTRATE;
 
@@ -38,6 +41,7 @@ public final class CoreContent {
         if (registered) return;
         registered = true;
         for (String name : new String[] { "basic_electronic_component", "germanium_press",
+                "via_substrate", "bonded_nano_die", "multilayer_interconnect",
                 "laminated_nano_processor", "laminated_nano_processor_assembly",
                 "laminated_nano_processor_computer", "laminated_nano_processor_mainframe" }) {
             REGISTRATE.item(name, Item::new).register();
@@ -59,13 +63,30 @@ public final class CoreContent {
         INSCRIBING.setIconSupplier(() -> STEAM_INSCRIBER.asStack());
     }
 
-    private static Item item(String name) {
+    public static void creativeTab(BuildCreativeModeTabContentsEvent event) {
+        var tab = event.getTabKey().location();
+        if (tab.equals(ResourceLocation.parse("gtceu:item"))) {
+            event.remove(new ItemStack(item("gtceu:microchip_processor")),
+                    TabVisibility.PARENT_AND_SEARCH_TABS);
+            for (var key : BuiltInRegistries.ITEM.keySet()) {
+                if (key.getNamespace().equals(GregaCore.MOD_ID) && !key.getPath().startsWith("glyph_")
+                        && !key.getPath().equals("steam_inscriber")) {
+                    event.accept(BuiltInRegistries.ITEM.get(key));
+                }
+            }
+        } else if (tab.equals(ResourceLocation.parse("gtceu:machine"))) {
+            event.accept(STEAM_INSCRIBER.asStack());
+        }
+    }
+
+    static Item item(String name) {
         ResourceLocation key = ResourceLocation.parse(name);
         if (!BuiltInRegistries.ITEM.containsKey(key)) throw new IllegalStateException("Missing item: " + key);
         return BuiltInRegistries.ITEM.get(key);
     }
 
     public static void addRecipes(RecipeOutput output) {
+        CircuitProduction.addRecipes(output);
         String[] types = { "logic", "calculation", "engineering" };
         String[] raw = { "minecraft:gold_ingot", "ae2:certus_quartz_crystal", "minecraft:diamond" };
         for (int i = 0; i < types.length; i++) {

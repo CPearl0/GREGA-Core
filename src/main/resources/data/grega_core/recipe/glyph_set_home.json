@@ -1,0 +1,19 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 27,
+  "inputs": [
+    {
+      "item": "minecraft:white_bed"
+    },
+    {
+      "item": "minecraft:compass"
+    },
+    {
+      "item": "ars_nouveau:source_gem"
+    }
+  ],
+  "output": {
+    "id": "grega_core:glyph_set_home",
+    "count": 1
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "gtceu:micro_processor_mainframe",
+    "gtceu:nano_processor_computer",
+    "grega_core:laminated_nano_processor_assembly"
+  ],
+  "remove": [
+    "gtceu:micro_processor_computer",
+    "gtceu:nano_processor_assembly"
+  ]
+}

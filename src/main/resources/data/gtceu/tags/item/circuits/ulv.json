@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "grega_core:basic_electronic_component"
+  ],
+  "remove": [
+    "gtceu:vacuum_tube"
+  ]
+}
