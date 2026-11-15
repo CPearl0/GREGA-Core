@@ -85,9 +85,9 @@ public final class EarlyProgressionRecipes {
                 "PP ", "PPS", "PP ", 'P', item("create:iron_sheet"), 'S', tag("c:rods/wooden"));
         addPlateHammerRecipes(out);
         VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/steel_bound_spell_book"), stack("ars_nouveau:novice_spell_book"),
-                "fMh", "SBS", "LGR", 'M', item("botania:mana_powder"),
+                "fMh", "SBS", "LGR", 'M', item("botania:mana_diamond"),
                 'S', new MaterialEntry(TagPrefix.plate, CoreMaterials.MANASTEEL), 'B', item("grega_core:mana_book"),
-                'L', tag("c:dusts/lapis"), 'G', tag("c:dusts/gold"), 'R', tag("c:dusts/redstone"));
+                'L', tag("c:dusts/lapis"), 'G', tag("c:dusts/gold"), 'R', item("botania:mana_powder"));
         VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/lp_steam_inscriber"), stack("grega_core:lp_steam_inscriber"),
                 "XPX", "XMX", "XPX", 'X', new MaterialEntry(TagPrefix.pipeSmallFluid, GTMaterials.Bronze),
                 'P', CustomTags.PISTONS, 'M', item("gtceu:bronze_machine_casing"));
