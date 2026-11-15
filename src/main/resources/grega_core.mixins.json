@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8.7",
+  "package": "io.github.cpearl0.grega.core.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "KubeColorMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

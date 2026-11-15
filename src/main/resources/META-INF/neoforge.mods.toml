@@ -14,6 +14,9 @@ Core and customization mod for GREGA (GREGA's Ritual, Energy, Gears and Applied)
 各类格雷科技整合包的 Core / 魔改模组。
 '''
 
+[[mixins]]
+config="grega_core.mixins.json"
+
 [[dependencies.${mod_id}]]
 modId="neoforge"
 type="required"
