@@ -51,6 +51,13 @@ public final class EarlyProgressionRecipes {
 
     public static void addRecipes(RecipeOutput out) {
         addPetalApothecaryRecipes(out);
+        addPlateKnifeRecipes(out);
+        // A hand-assembled steel harness and wing spar make exploration available at the first steel.
+        VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/elytra"), stack("minecraft:elytra"),
+                "MPM", "MRM", "dSh", 'M', item("minecraft:phantom_membrane"),
+                'P', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel),
+                'R', new MaterialEntry(TagPrefix.rod, GTMaterials.Steel),
+                'S', new MaterialEntry(TagPrefix.screw, GTMaterials.Steel));
         VanillaRecipeHelper.addShapelessRecipe(out, CoreContent.id("early/iron_nuggets"),
                 new ItemStack(item("minecraft:iron_nugget"), 9), tag("c:ingots/iron"));
         // A mortar route is needed before the first Create press and GT forge hammer exist.
@@ -121,6 +128,19 @@ public final class EarlyProgressionRecipes {
                 "RPR", "VBV", "CCC", 'R', item("gtceu:resistor"), 'P', tag("c:plates/steel"),
                 'V', item("grega_core:basic_electronic_component"), 'B', item("gtceu:resin_printed_circuit_board"),
                 'C', item("gtceu:red_alloy_single_cable"));
+    }
+
+    private static void addPlateKnifeRecipes(RecipeOutput out) {
+        // Keep each native blade and handle, with h/f as GT's reusable crafting tools.
+        VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/totem_whittling_knife"),
+                stack("totemic:totem_whittling_knife"), " hP", " SF", "S f",
+                'P', tag("c:plates/iron"), 'S', tag("c:rods/wooden"), 'F', item("minecraft:flint"));
+        for (var entry : Map.of("certus_quartz_cutting_knife", "c:gems/certus_quartz",
+                "nether_quartz_cutting_knife", "c:gems/quartz").entrySet()) {
+            VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/" + entry.getKey()),
+                    stack("ae2:" + entry.getKey()), "h S", "PS ", "QQf",
+                    'P', tag("c:plates/iron"), 'S', tag("c:rods/wooden"), 'Q', tag(entry.getValue()));
+        }
     }
 
     private static void addPetalApothecaryRecipes(RecipeOutput out) {

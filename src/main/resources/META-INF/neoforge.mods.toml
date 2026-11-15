@@ -10,7 +10,7 @@ displayName="${mod_name}"
 displayURL="https://github.com/CPearl0/GREGA-Core"
 authors="CPearl0"
 description='''
-Core and customization mod for GREGA (GREGA's Ritual, Energy, Gears and Applied).
+Core and customization mod for GREGA (GREGA's Ritual, Energy, GregTech and Applied).
 各类格雷科技整合包的 Core / 魔改模组。
 '''
 
@@ -56,5 +56,12 @@ side="BOTH"
 modId="botania"
 type="required"
 versionRange="[457-SNAPSHOT,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="totemic"
+type="required"
+versionRange="[1.21.1-0.12.19,1.21.1-0.13)"
 ordering="AFTER"
 side="BOTH"

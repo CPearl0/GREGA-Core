@@ -1,8 +1,5 @@
 {
   "block.grega_core.lp_steam_inscriber": "Low Pressure Steam Inscriber",
-  "grega_core.inscriber.tooltip": "Steam-powered AE processor production; reusable presses, red alloy plates; keep the rear vent clear.",
-  "grega_core.germanium.tooltip": "Alien technology: collectible, but incompatible with human inscribing and crafting.",
-  "grega_core.laminated.tooltip": "An independent 3D nano circuit family built with vias, die bonding and multilayer interconnects.",
   "grega_core.travel.portal_opened": "The glyph has opened the portal.",
   "grega_core.travel.portal_frame": "Target a complete portal frame, valid Twilight pool or Elven Gateway Core, and meet its native structure and mana requirements.",
   "grega_core.travel.home_bound": "Home set at a safe position nearby.",
@@ -39,7 +36,6 @@
   "grega_core.travel.use_touch": "Use Touch → Open Portal on an inner frame face, Twilight pool or Elven Gateway Core.",
   "grega_core.travel.use_self": "Travel effects require the Self cast method.",
   "grega_core.circuit.rating": "%s-Tier Circuit",
-  "grega_core.electric_inscriber.tooltip": "Makes AE processors using EU; presses are reusable, assembly uses Red Alloy plates; supports standard GT overclocking.",
   "block.grega_core.lv_inscriber": "LV Inscriber",
   "block.grega_core.mv_inscriber": "MV Inscriber",
   "block.grega_core.hv_inscriber": "HV Inscriber",
@@ -58,6 +54,10 @@
   "block.grega_core.hp_steam_inscriber": "High Pressure Steam Inscriber",
   "block.grega_core.lp_steam_mixer": "Low Pressure Steam Mixer",
   "block.grega_core.hp_steam_mixer": "High Pressure Steam Mixer",
-  "grega_core.steam_mixer.tooltip": "Steam-powered GT mixing with separate ingredient, product and steam fuel tanks; keep the exhaust vent clear.",
-  "material.grega_core.andesite_alloy": "Andesite Alloy"
+  "material.grega_core.andesite_alloy": "Andesite Alloy",
+  "totemic.ceremony.grega_core.rubber_awakening": "Song of Latex",
+  "totemic.ceremony.grega_core.rubber_awakening.description": "Transforms nearby Oak Saplings into Rubber Saplings",
+  "grega_core.ceremony.rubber_awakening.no_saplings": "Plant %2$s within 6 blocks of the %1$s.",
+  "grega_core.ceremony.rubber_awakening.overview": "The $(thing)Song of Latex$() transforms all $(item)Oak Saplings$() within 6 blocks of the Totem Base into $(item)Rubber Saplings$().$(br2)Select it with a $(l:instruments/rattle)Rattle$(/l) and an $(l:instruments/eagle_bone_whistle)Eagle-Bone Whistle$(/l).",
+  "grega_core.ceremony.rubber_awakening.result": "$(o)Don't go extinct again"
 }

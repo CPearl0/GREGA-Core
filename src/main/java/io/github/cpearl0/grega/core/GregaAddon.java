@@ -27,6 +27,8 @@ public final class GregaAddon implements IGTAddon {
     @Override
     public void addRecipes(RecipeOutput output) {
         EarlyProgressionRecipes.addRecipes(output);
+        TotemicRecipes.addRecipes(output);
+        AEQuartzRecipes.addRecipes(output);
         CoreContent.addRecipes(output);
     }
 

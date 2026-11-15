@@ -32,9 +32,13 @@ public final class PackRecipeChanges {
     }
 
     public static void removeRecipes(Consumer<ResourceLocation> remove) {
+        TotemicRecipes.removeRecipes(remove);
         // IGTAddon.removeRecipes also removes other mods' datapack recipes before decoding.
         // Replace only the listed native crafting and processing routes.
         for (String id : new String[] {
+                "totemic:totem_whittling_knife",
+                "ae2:tools/certus_quartz_cutting_knife",
+                "ae2:tools/nether_quartz_cutting_knife",
                 "create:crafting/kinetics/mechanical_press",
                 "create:crafting/kinetics/mechanical_mixer",
                 "create:crafting/kinetics/cogwheel",
@@ -51,10 +55,13 @@ public final class PackRecipeChanges {
                 "create:mixing/andesite_alloy",
                 "create:mixing/andesite_alloy_from_zinc",
                 "gtceu:shapeless/fireclay_dust",
+                "gtceu:smelting/sticky_resin_from_slime",
                 "gtceu:shaped/bucket_of_concrete",
                 "minecraft:bricks",
                 "gtceu:shaped/brick_from_water",
                 "gtceu:shaped/casing_primitive_bricks",
+                "ae2:network/blocks/crystal_processing_charger",
+                "ae2:charger/charged_certus_quartz_crystal",
                 "ae2:inscriber/calculation_processor",
                 "ae2:inscriber/calculation_processor_press",
                 "ae2:inscriber/calculation_processor_print",

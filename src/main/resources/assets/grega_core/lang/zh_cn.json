@@ -1,8 +1,5 @@
 {
   "block.grega_core.lp_steam_inscriber": "低压蒸汽压印机",
-  "grega_core.inscriber.tooltip": "以蒸汽制作 AE 处理器；模板不消耗，组装使用红色合金板；保持背面排气口畅通。",
-  "grega_core.germanium.tooltip": "外星工艺：可以收藏，但无法用于人类的压印或合成。",
-  "grega_core.laminated.tooltip": "以过孔、芯片键合与多层互连实现3D纳米堆叠的独立电路系列。",
   "grega_core.travel.portal_opened": "传送门已由魔符开启。",
   "grega_core.travel.portal_frame": "请对完整门框内侧、有效的暮色水池或精灵传送门核心施法，并满足原有结构与魔力要求。",
   "grega_core.travel.home_bound": "已在附近安全位置设置家。",
@@ -39,7 +36,6 @@
   "grega_core.travel.use_touch": "使用接触 → 开启传送门，对门框内侧、暮色水池或精灵传送门核心施法。",
   "grega_core.travel.use_self": "设置家、归家和漫游效果需要「自身」施法方式。",
   "grega_core.circuit.rating": "%s级电路",
-  "grega_core.electric_inscriber.tooltip": "使用电力制作 AE 处理器；模板不消耗，组装使用红色合金板；支持格雷标准超频。",
   "block.grega_core.lv_inscriber": "LV压印机",
   "block.grega_core.mv_inscriber": "MV压印机",
   "block.grega_core.hv_inscriber": "HV压印机",
@@ -58,6 +54,10 @@
   "block.grega_core.hp_steam_inscriber": "高压蒸汽压印机",
   "block.grega_core.lp_steam_mixer": "低压蒸汽搅拌机",
   "block.grega_core.hp_steam_mixer": "高压蒸汽搅拌机",
-  "grega_core.steam_mixer.tooltip": "以蒸汽驱动 GT 搅拌配方；原料流体槽与产物流体槽独立于蒸汽燃料槽；保持排气口畅通。",
-  "material.grega_core.andesite_alloy": "安山合金"
+  "material.grega_core.andesite_alloy": "安山合金",
+  "totemic.ceremony.grega_core.rubber_awakening": "生胶之歌",
+  "totemic.ceremony.grega_core.rubber_awakening.description": "将附近的橡树树苗转化为橡胶树苗",
+  "grega_core.ceremony.rubber_awakening.no_saplings": "请在%s周围6格内种下%s。",
+  "grega_core.ceremony.rubber_awakening.overview": "$(thing)生胶之歌$()将图腾基座周围6格内的所有$(item)橡树树苗$()转化为$(item)橡胶树苗$()。$(br2)选择仪式需要$(l:instruments/rattle)摇响器$(/l)和$(l:instruments/eagle_bone_whistle)鹰骨笛$(/l)。",
+  "grega_core.ceremony.rubber_awakening.result": "$(o)可别再灭绝了"
 }

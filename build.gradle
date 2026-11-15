@@ -55,6 +55,7 @@ dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
     implementation 'maven.modrinth:gregtechceu-modern:iFPVZs0V'
     compileOnly 'maven.modrinth:ars-nouveau:ALmdjtiq'
+    compileOnly 'maven.modrinth:fenns_totemic:tS54LAQx'
     gtBundle 'maven.modrinth:gregtechceu-modern:iFPVZs0V'
     compileOnly files(gtLibraries).asFileTree.matching { include '*.jar' }
 }

@@ -8,8 +8,10 @@ import net.neoforged.neoforge.common.NeoForge;
 @Mod(GregaCore.MOD_ID)
 public final class GregaCore {
     public static final String MOD_ID = "grega_core";
+    public static final int FIREWORK_ROCKET_YIELD = 8;
 
     public GregaCore(IEventBus modBus) {
+        TotemicCeremonies.register(modBus);
         TravelSpells.register();
         modBus.addListener((FMLCommonSetupEvent event) -> event.enqueueWork(PackRecipeChanges::install));
         modBus.addListener(CoreContent::register);

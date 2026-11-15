@@ -19,7 +19,6 @@ import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -69,14 +68,12 @@ public final class CoreContent {
                 .recipeType(INSCRIBING).recipeModifier(SimpleSteamMachine::recipeModifier)
                 .modelProperty(SimpleSteamMachine.VENT_DIRECTION_PROPERTY, RelativeDirection.BACK)
                 .workableSteamHullModel(false, ResourceLocation.fromNamespaceAndPath("gtceu", "block/machines/compressor"))
-                .tooltips(Component.translatable("grega_core.inscriber.tooltip"))
                 .register();
         HP_STEAM_INSCRIBER = REGISTRATE.machine("hp_steam_inscriber", holder -> new SimpleSteamMachine(holder, true))
                 .tier(1).rotationState(RotationState.ALL)
                 .recipeType(INSCRIBING).recipeModifier(SimpleSteamMachine::recipeModifier)
                 .modelProperty(SimpleSteamMachine.VENT_DIRECTION_PROPERTY, RelativeDirection.BACK)
                 .workableSteamHullModel(true, ResourceLocation.parse("gtceu:block/machines/compressor"))
-                .tooltips(Component.translatable("grega_core.inscriber.tooltip"))
                 .register();
         for (int pressure = 0; pressure < STEAM_MIXERS.length; pressure++) {
             boolean highPressure = pressure == 1;
@@ -87,7 +84,6 @@ public final class CoreContent {
                     .recipeType(GTRecipeTypes.MIXER_RECIPES).recipeModifier(SimpleSteamMachine::recipeModifier)
                     .modelProperty(SimpleSteamMachine.VENT_DIRECTION_PROPERTY, RelativeDirection.BACK)
                     .workableSteamHullModel(highPressure, ResourceLocation.parse("gtceu:block/machines/mixer"))
-                    .tooltips(Component.translatable("grega_core.steam_mixer.tooltip"))
                     .register();
         }
         // Follow GT's enabled electric tiers, hull storage and ordinary overclocking.
@@ -99,9 +95,6 @@ public final class CoreContent {
                     .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(id("inscriber"), INSCRIBING))
                     .recipeType(INSCRIBING).recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
                     .workableTieredHullModel(ResourceLocation.parse("gtceu:block/machines/forming_press"))
-                    .tooltips(GTMachineUtils.workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64,
-                            INSCRIBING, GTMachineUtils.defaultTankSizeFunction.applyAsInt(tier), true))
-                    .tooltips(Component.translatable("grega_core.electric_inscriber.tooltip"))
                     .register();
         }
         INSCRIBING.setIconSupplier(() -> LP_STEAM_INSCRIBER.asStack());
