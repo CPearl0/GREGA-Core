@@ -1,0 +1,6 @@
+{
+  "type": "botania:mana_infusion",
+  "input": { "tag": "c:storage_blocks/steel" },
+  "mana": 27000,
+  "output": { "id": "botania:manasteel_block", "count": 1 }
+}

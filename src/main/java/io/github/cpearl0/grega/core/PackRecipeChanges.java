@@ -42,6 +42,8 @@ public final class PackRecipeChanges {
                 "create:crafting/kinetics/large_cogwheel_from_little",
                 "create:deploying/cogwheel",
                 "create:deploying/large_cogwheel",
+                "botania:mana_infusion/manasteel_ingot",
+                "botania:mana_infusion/manasteel_block",
                 "ars_nouveau:novice_spell_book",
                 "ars_nouveau:novice_spellbook_alt",
                 "create:crafting/materials/andesite_alloy",
