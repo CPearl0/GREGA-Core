@@ -29,7 +29,8 @@ public final class CoreMaterials {
         ANDESITE_ALLOY = new Material.Builder(CoreContent.id("andesite_alloy"))
                 .ingot().color(0x8A9C87).iconSet(MaterialIconSet.ROUGH)
                 .components(GTMaterials.Andesite, 3, GTMaterials.Zinc, 1)
-                .flags(MaterialFlags.MORTAR_GRINDABLE, MaterialFlags.DISABLE_DECOMPOSITION)
+                .flags(MaterialFlags.MORTAR_GRINDABLE, MaterialFlags.DISABLE_DECOMPOSITION,
+                        MaterialFlags.GENERATE_ROTOR)
                 .buildAndRegister();
         TagPrefix.ingot.setIgnored(ANDESITE_ALLOY, () -> CoreContent.item("create:andesite_alloy"));
         TagPrefix.block.setIgnored(ANDESITE_ALLOY,

@@ -6,7 +6,12 @@ import com.gregtechceu.gtceu.data.tag.CustomTags;
 import com.gregtechceu.gtceu.api.material.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.item.tool.GTToolType;
+import com.gregtechceu.gtceu.api.item.tool.ToolHelper;
 import com.gregtechceu.gtceu.api.material.ChemicalHelper;
+import com.gregtechceu.gtceu.api.material.material.info.MaterialFlags;
+import com.gregtechceu.gtceu.api.material.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.data.material.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.GTRecipeTypes;
@@ -49,8 +54,16 @@ public final class EarlyProgressionRecipes {
                 .duration(100).EUt(GTValues.VA[GTValues.ULV]).save(out);
         VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/mechanical_press"), stack("create:mechanical_press"),
                 " S ", " C ", "III", 'S', item("create:shaft"), 'C', item("create:andesite_casing"), 'I', tag("c:ingots/iron"));
+        VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/mechanical_mixer"), stack("create:mechanical_mixer"),
+                "G", "C", "R", 'G', item("create:cogwheel"), 'C', item("create:andesite_casing"),
+                'R', new MaterialEntry(TagPrefix.rotor, CoreMaterials.ANDESITE_ALLOY));
+        VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/cogwheel"), stack("create:cogwheel"),
+                "hPf", " S ", 'P', tag("minecraft:planks"), 'S', item("create:shaft"));
+        VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/large_cogwheel"), stack("create:large_cogwheel"),
+                "hPf", "PS ", 'P', tag("minecraft:planks"), 'S', item("create:shaft"));
         VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/pressed_iron_hammer"), stack("gtceu:iron_hammer"),
                 "PP ", "PPS", "PP ", 'P', item("create:iron_sheet"), 'S', tag("c:rods/wooden"));
+        addPlateHammerRecipes(out);
         VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/steel_bound_spell_book"), stack("ars_nouveau:novice_spell_book"),
                 "fMh", "SBS", "LGR", 'M', new MaterialEntry(TagPrefix.dust, CoreMaterials.MANASTEEL),
                 'S', tag("c:plates/steel"), 'B', item("grega_core:mana_book"),
@@ -88,5 +101,20 @@ public final class EarlyProgressionRecipes {
                 "RPR", "VBV", "CCC", 'R', item("gtceu:resistor"), 'P', tag("c:plates/steel"),
                 'V', item("grega_core:basic_electronic_component"), 'B', item("gtceu:resin_printed_circuit_board"),
                 'C', item("gtceu:red_alloy_single_cable"));
+    }
+
+    private static void addPlateHammerRecipes(RecipeOutput out) {
+        // Match GT's native eligibility, replacing the ingot/gem head with same-material plates.
+        // Iron keeps its separate Create-pressed sheet recipe for the first hand tool.
+        for (var material : GTCEuAPI.materialManager) {
+            if (material == GTMaterials.Iron || !material.hasProperty(PropertyKey.TOOL)
+                    || !material.shouldGenerateRecipesFor(TagPrefix.plate)
+                    || !material.hasFlag(MaterialFlags.GENERATE_PLATE)) continue;
+            ItemStack hammer = ToolHelper.get(GTToolType.HARD_HAMMER, material);
+            if (hammer.isEmpty()) continue;
+            VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/plate_hammer_" + material.getName()),
+                    hammer, "PP ", "PPS", "PP ",
+                    'P', new MaterialEntry(TagPrefix.plate, material), 'S', tag("c:rods/wooden"));
+        }
     }
 }

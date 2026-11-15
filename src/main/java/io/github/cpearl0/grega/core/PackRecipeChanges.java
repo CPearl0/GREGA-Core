@@ -33,9 +33,15 @@ public final class PackRecipeChanges {
 
     public static void removeRecipes(Consumer<ResourceLocation> remove) {
         // IGTAddon.removeRecipes also removes other mods' datapack recipes before decoding.
-        // These are all inscriber-type recipes and the machine recipe in the pinned AE2 19.2.19.
+        // Replace only the listed native crafting and processing routes.
         for (String id : new String[] {
                 "create:crafting/kinetics/mechanical_press",
+                "create:crafting/kinetics/mechanical_mixer",
+                "create:crafting/kinetics/cogwheel",
+                "create:crafting/kinetics/large_cogwheel",
+                "create:crafting/kinetics/large_cogwheel_from_little",
+                "create:deploying/cogwheel",
+                "create:deploying/large_cogwheel",
                 "ars_nouveau:novice_spell_book",
                 "ars_nouveau:novice_spellbook_alt",
                 "create:crafting/materials/andesite_alloy",
@@ -66,7 +72,8 @@ public final class PackRecipeChanges {
         // Bronze powder must be mixed in Create's basin, including after the electric mixer unlocks.
         remove.accept(ResourceLocation.parse("gtceu:shapeless/dust_bronze"));
         remove.accept(ResourceLocation.parse("gtceu:mixer/bronze"));
-        // Keep machine-made hammers, but require Create-pressed plates for the first hand tool.
+        // EarlyProgressionRecipes replaces all ingot/gem hammer crafts with plate recipes.
+        // Machine-made hammers remain available.
         for (var material : GTCEuAPI.materialManager) {
             remove.accept(ResourceLocation.parse("gtceu:shaped/hammer_" + material.getName()));
         }
