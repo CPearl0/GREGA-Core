@@ -1,6 +1,7 @@
 package io.github.cpearl0.grega.core;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
@@ -37,6 +38,12 @@ public final class PackRecipeChanges {
                 "create:crafting/kinetics/mechanical_press",
                 "ars_nouveau:novice_spell_book",
                 "ars_nouveau:novice_spellbook_alt",
+                "create:crafting/materials/andesite_alloy",
+                "create:crafting/materials/andesite_alloy_from_zinc",
+                "create:mixing/andesite_alloy",
+                "create:mixing/andesite_alloy_from_zinc",
+                "gtceu:shapeless/fireclay_dust",
+                "gtceu:shaped/bucket_of_concrete",
                 "ae2:inscriber/calculation_processor",
                 "ae2:inscriber/calculation_processor_press",
                 "ae2:inscriber/calculation_processor_print",
@@ -78,6 +85,11 @@ public final class PackRecipeChanges {
     }
 
     private static void filterLegacyRecipes(GTRecipeBuilder recipe) {
+        if (recipe.recipeType.registryName.getPath().equals("mixer")
+                && java.util.Set.of("concrete_from_clay", "concrete_from_calcite", "concrete_from_marble")
+                        .contains(recipe.id.getPath())) {
+            recipe.EUt(GTValues.VA[GTValues.ULV]);
+        }
         var outputs = recipe.output.getOrDefault(ItemRecipeCapability.CAP, List.of());
         if (contains(outputs, "gtceu:vacuum_tube") || contains(outputs, "gtceu:microchip_processor")
                 || family(outputs, "micro") || family(outputs, "nano")) {

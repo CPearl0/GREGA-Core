@@ -13,6 +13,8 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.machine.RotationState;
 import com.gregtechceu.gtceu.data.machine.GTMachineUtils;
 import com.gregtechceu.gtceu.data.recipe.GTRecipeModifiers;
+import com.gregtechceu.gtceu.data.recipe.GTRecipeTypes;
+import io.github.cpearl0.grega.core.machine.SteamMixerMachine;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -33,7 +35,9 @@ import static io.github.cpearl0.grega.core.GregaAddon.REGISTRATE;
 /** Shared steam/electric inscribing recipe map and pack-specific circuit items. */
 public final class CoreContent {
     public static GTRecipeType INSCRIBING;
-    public static MachineDefinition STEAM_INSCRIBER;
+    public static MachineDefinition LP_STEAM_INSCRIBER;
+    public static MachineDefinition HP_STEAM_INSCRIBER;
+    public static final MachineDefinition[] STEAM_MIXERS = new MachineDefinition[2];
     public static final MachineDefinition[] ELECTRIC_INSCRIBERS = new MachineDefinition[GTValues.TIER_COUNT];
     private static boolean registered;
 
@@ -60,13 +64,32 @@ public final class CoreContent {
         GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, id("inscribing"), INSCRIBING);
         INSCRIBING.setSerializer(GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER,
                 id("inscribing"), new GTRecipeSerializer()));
-        STEAM_INSCRIBER = REGISTRATE.machine("steam_inscriber", holder -> new SimpleSteamMachine(holder, false))
+        LP_STEAM_INSCRIBER = REGISTRATE.machine("lp_steam_inscriber", holder -> new SimpleSteamMachine(holder, false))
                 .tier(0).rotationState(RotationState.ALL)
                 .recipeType(INSCRIBING).recipeModifier(SimpleSteamMachine::recipeModifier)
                 .modelProperty(SimpleSteamMachine.VENT_DIRECTION_PROPERTY, RelativeDirection.BACK)
                 .workableSteamHullModel(false, ResourceLocation.fromNamespaceAndPath("gtceu", "block/machines/compressor"))
                 .tooltips(Component.translatable("grega_core.inscriber.tooltip"))
                 .register();
+        HP_STEAM_INSCRIBER = REGISTRATE.machine("hp_steam_inscriber", holder -> new SimpleSteamMachine(holder, true))
+                .tier(1).rotationState(RotationState.ALL)
+                .recipeType(INSCRIBING).recipeModifier(SimpleSteamMachine::recipeModifier)
+                .modelProperty(SimpleSteamMachine.VENT_DIRECTION_PROPERTY, RelativeDirection.BACK)
+                .workableSteamHullModel(true, ResourceLocation.parse("gtceu:block/machines/compressor"))
+                .tooltips(Component.translatable("grega_core.inscriber.tooltip"))
+                .register();
+        for (int pressure = 0; pressure < STEAM_MIXERS.length; pressure++) {
+            boolean highPressure = pressure == 1;
+            STEAM_MIXERS[pressure] = REGISTRATE
+                    .machine((highPressure ? "hp" : "lp") + "_steam_mixer",
+                            holder -> new SteamMixerMachine(holder, highPressure))
+                    .tier(pressure).rotationState(RotationState.NON_Y_AXIS)
+                    .recipeType(GTRecipeTypes.MIXER_RECIPES).recipeModifier(SimpleSteamMachine::recipeModifier)
+                    .modelProperty(SimpleSteamMachine.VENT_DIRECTION_PROPERTY, RelativeDirection.BACK)
+                    .workableSteamHullModel(highPressure, ResourceLocation.parse("gtceu:block/machines/mixer"))
+                    .tooltips(Component.translatable("grega_core.steam_mixer.tooltip"))
+                    .register();
+        }
         // Follow GT's enabled electric tiers, hull storage and ordinary overclocking.
         for (int tier : GTMachineUtils.ELECTRIC_TIERS) {
             ELECTRIC_INSCRIBERS[tier] = REGISTRATE
@@ -81,7 +104,7 @@ public final class CoreContent {
                     .tooltips(Component.translatable("grega_core.electric_inscriber.tooltip"))
                     .register();
         }
-        INSCRIBING.setIconSupplier(() -> STEAM_INSCRIBER.asStack());
+        INSCRIBING.setIconSupplier(() -> LP_STEAM_INSCRIBER.asStack());
     }
 
     public static void creativeTab(BuildCreativeModeTabContentsEvent event) {
@@ -91,12 +114,14 @@ public final class CoreContent {
                     TabVisibility.PARENT_AND_SEARCH_TABS);
             for (var key : BuiltInRegistries.ITEM.keySet()) {
                 if (key.getNamespace().equals(GregaCore.MOD_ID) && !key.getPath().startsWith("glyph_")
-                        && !key.getPath().endsWith("_inscriber")) {
+                        && !key.getPath().endsWith("_inscriber") && !key.getPath().endsWith("_mixer")) {
                     event.accept(BuiltInRegistries.ITEM.get(key));
                 }
             }
         } else if (tab.equals(ResourceLocation.parse("gtceu:machine"))) {
-            event.accept(STEAM_INSCRIBER.asStack());
+            event.accept(LP_STEAM_INSCRIBER.asStack());
+            event.accept(HP_STEAM_INSCRIBER.asStack());
+            for (var machine : STEAM_MIXERS) event.accept(machine.asStack());
             for (var machine : ELECTRIC_INSCRIBERS) {
                 if (machine != null) event.accept(machine.asStack());
             }

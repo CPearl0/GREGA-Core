@@ -1,33 +1,48 @@
 {
   "parent": "minecraft:block/block",
   "loader": "gtceu:machine",
-  "machine": "grega_core:steam_inscriber",
+  "machine": "grega_core:hp_steam_inscriber",
   "multipart": [
     {
+      "apply": {
+        "model": {
+          "parent": "gtceu:block/casings/steam/bricked_steel",
+          "textures": {
+            "overlay_front": "gtceu:block/machines/compressor/overlay_front",
+            "overlay_front_emissive": "gtceu:block/machines/compressor/overlay_front_emissive",
+            "overlay_side": "gtceu:block/machines/compressor/overlay_side",
+            "overlay_side_emissive": "gtceu:block/machines/compressor/overlay_side_emissive",
+            "overlay_top": "gtceu:block/machines/compressor/overlay_top",
+            "overlay_top_emissive": "gtceu:block/machines/compressor/overlay_top_emissive"
+          }
+        }
+      },
       "when": {
         "recipe_logic_status": "idle"
-      },
-      "apply": {
-        "model": {
-          "parent": "gtceu:block/casings/steam/bricked_bronze",
-          "textures": {
-            "overlay_front": "gtceu:block/machines/compressor/overlay_front",
-            "overlay_front_emissive": "gtceu:block/machines/compressor/overlay_front_emissive",
-            "overlay_side": "gtceu:block/machines/compressor/overlay_side",
-            "overlay_side_emissive": "gtceu:block/machines/compressor/overlay_side_emissive",
-            "overlay_top": "gtceu:block/machines/compressor/overlay_top",
-            "overlay_top_emissive": "gtceu:block/machines/compressor/overlay_top_emissive"
-          }
-        }
       }
     },
     {
+      "apply": {
+        "model": {
+          "parent": "gtceu:block/casings/steam/bricked_steel",
+          "textures": {
+            "overlay_front": "gtceu:block/machines/compressor/overlay_front_active",
+            "overlay_front_emissive": "gtceu:block/machines/compressor/overlay_front_active_emissive",
+            "overlay_side": "gtceu:block/machines/compressor/overlay_side_active",
+            "overlay_side_emissive": "gtceu:block/machines/compressor/overlay_side_active_emissive",
+            "overlay_top": "gtceu:block/machines/compressor/overlay_top_active",
+            "overlay_top_emissive": "gtceu:block/machines/compressor/overlay_top_active_emissive"
+          }
+        }
+      },
       "when": {
         "recipe_logic_status": "working"
-      },
+      }
+    },
+    {
       "apply": {
         "model": {
-          "parent": "gtceu:block/casings/steam/bricked_bronze",
+          "parent": "gtceu:block/casings/steam/bricked_steel",
           "textures": {
             "overlay_front": "gtceu:block/machines/compressor/overlay_front_active",
             "overlay_front_emissive": "gtceu:block/machines/compressor/overlay_front_active_emissive",
@@ -37,33 +52,15 @@
             "overlay_top_emissive": "gtceu:block/machines/compressor/overlay_top_active_emissive"
           }
         }
-      }
-    },
-    {
+      },
       "when": {
         "recipe_logic_status": "waiting"
-      },
-      "apply": {
-        "model": {
-          "parent": "gtceu:block/casings/steam/bricked_bronze",
-          "textures": {
-            "overlay_front": "gtceu:block/machines/compressor/overlay_front_active",
-            "overlay_front_emissive": "gtceu:block/machines/compressor/overlay_front_active_emissive",
-            "overlay_side": "gtceu:block/machines/compressor/overlay_side_active",
-            "overlay_side_emissive": "gtceu:block/machines/compressor/overlay_side_active_emissive",
-            "overlay_top": "gtceu:block/machines/compressor/overlay_top_active",
-            "overlay_top_emissive": "gtceu:block/machines/compressor/overlay_top_active_emissive"
-          }
-        }
       }
     },
     {
-      "when": {
-        "recipe_logic_status": "suspend"
-      },
       "apply": {
         "model": {
-          "parent": "gtceu:block/casings/steam/bricked_bronze",
+          "parent": "gtceu:block/casings/steam/bricked_steel",
           "textures": {
             "overlay_front": "gtceu:block/machines/compressor/overlay_front",
             "overlay_front_emissive": "gtceu:block/machines/compressor/overlay_front_emissive",
@@ -73,59 +70,62 @@
             "overlay_top_emissive": "gtceu:block/machines/compressor/overlay_top_emissive"
           }
         }
+      },
+      "when": {
+        "recipe_logic_status": "suspend"
       }
     },
     {
-      "when": {
-        "steam_vent": "up"
-      },
       "apply": {
         "model": "gtceu:block/overlay/machine/overlay_steam_vent",
         "x": 270
+      },
+      "when": {
+        "steam_vent": "up"
       }
     },
     {
-      "when": {
-        "steam_vent": "down"
-      },
       "apply": {
         "model": "gtceu:block/overlay/machine/overlay_steam_vent",
         "x": 90
+      },
+      "when": {
+        "steam_vent": "down"
       }
     },
     {
-      "when": {
-        "steam_vent": "left"
-      },
       "apply": {
         "model": "gtceu:block/overlay/machine/overlay_steam_vent",
         "y": 270
+      },
+      "when": {
+        "steam_vent": "left"
       }
     },
     {
-      "when": {
-        "steam_vent": "right"
-      },
       "apply": {
         "model": "gtceu:block/overlay/machine/overlay_steam_vent",
         "y": 90
+      },
+      "when": {
+        "steam_vent": "right"
       }
     },
     {
-      "when": {
-        "steam_vent": "front"
-      },
       "apply": {
         "model": "gtceu:block/overlay/machine/overlay_steam_vent"
+      },
+      "when": {
+        "steam_vent": "front"
       }
     },
     {
-      "when": {
-        "steam_vent": "back"
-      },
       "apply": {
         "model": "gtceu:block/overlay/machine/overlay_steam_vent",
         "y": 180
+      },
+      "when": {
+        "steam_vent": "back"
       }
     }
   ]

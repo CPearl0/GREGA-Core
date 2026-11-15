@@ -1,20 +1,32 @@
 package io.github.cpearl0.grega.core;
 
+import io.github.cpearl0.grega.core.mixin.AetherPortalAccess;
+import io.github.cpearl0.grega.core.mixin.TwilightDimensionAccess;
+import io.github.cpearl0.grega.core.mixin.TwilightPortalConfigAccess;
+import io.github.cpearl0.grega.core.portal.PoolPortalGateway;
+import io.github.cpearl0.grega.core.portal.WandPortalGateway;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.portal.PortalShape;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.fml.ModList;
 
+import java.util.List;
 import java.util.Set;
 
 /** Server-side operations called only by the registered Ars effects. */
@@ -27,6 +39,8 @@ public final class TravelMagic {
 
     private TravelMagic() {}
 
+    public static boolean isOpeningPortal() { return OPENING_PORTAL.get(); }
+
     public static void portalSpawn(BlockEvent.PortalSpawnEvent event) {
         if (!OPENING_PORTAL.get()) event.setCanceled(true);
     }
@@ -38,27 +52,72 @@ public final class TravelMagic {
 
     public static void openPortal(ServerPlayer player, BlockHitResult hit) {
         ServerLevel level = player.serverLevel();
-        if (level.dimension() != Level.OVERWORLD && level.dimension() != Level.NETHER) {
-            message(player, "overworld_or_nether");
-            return;
-        }
-        if (!level.getBlockState(hit.getBlockPos()).is(Blocks.OBSIDIAN)
-                || !level.mayInteract(player, hit.getBlockPos())) {
+        if (player.isSpectator() || !level.mayInteract(player, hit.getBlockPos())) {
             message(player, "portal_frame");
             return;
         }
         BlockPos inside = hit.getBlockPos().relative(hit.getDirection());
         OPENING_PORTAL.set(true);
         try {
-            var shape = PortalShape.findEmptyPortalShape(level, inside, Direction.Axis.X);
-            if (shape.isEmpty()) shape = PortalShape.findEmptyPortalShape(level, inside, Direction.Axis.Z);
-            if (shape.isPresent()) {
-                shape.get().createPortalBlocks();
+            boolean opened = false;
+            if (level.getBlockEntity(hit.getBlockPos()) instanceof WandPortalGateway gateway) {
+                opened = gateway.grega$openPortal(player,
+                        CoreContent.item("grega_core:glyph_open_portal").getDefaultInstance(), hit.getDirection());
+            } else if (level.getBlockState(hit.getBlockPos()).is(Blocks.OBSIDIAN)
+                    && (level.dimension() == Level.OVERWORLD || level.dimension() == Level.NETHER)) {
+                var shape = PortalShape.findEmptyPortalShape(level, inside, Direction.Axis.X);
+                if (shape.isEmpty()) shape = PortalShape.findEmptyPortalShape(level, inside, Direction.Axis.Z);
+                if (shape.isPresent()) {
+                    shape.get().createPortalBlocks();
+                    opened = true;
+                }
+            } else {
+                // Touch traces can hit the floor below a pool, so also examine the block above it.
+                for (BlockPos pos : List.of(inside, hit.getBlockPos(), inside.above(), hit.getBlockPos().above())) {
+                    if (!level.mayInteract(player, pos)) continue;
+                    if (openTwilightPortal(player, pos) || openAetherPortal(level, pos)) {
+                        opened = true;
+                        break;
+                    }
+                }
+            }
+            if (opened) {
                 message(player, "portal_opened");
             } else message(player, "portal_frame");
         } finally {
             OPENING_PORTAL.remove();
         }
+    }
+
+    private static boolean openAetherPortal(ServerLevel level, BlockPos pos) {
+        if (!ModList.get().isLoaded("aether")) return false;
+        // Reuse the native activation path (including frame, dimension and config checks).
+        // The spell supplies activation; no water block is placed or bucket consumed.
+        return AetherPortalAccess.grega$openPortal(level, pos, Blocks.WATER.defaultBlockState(),
+                Fluids.WATER.defaultFluidState());
+    }
+
+    private static boolean openTwilightPortal(ServerPlayer player, BlockPos pos) {
+        if (!ModList.get().isLoaded("twilightforest")) return false;
+        ServerLevel level = player.serverLevel();
+        var portal = BuiltInRegistries.BLOCK.get(ResourceLocation.parse("twilightforest:twilight_portal"));
+        if (!(portal instanceof PoolPortalGateway gateway) || !gateway.grega$canFormPortal(level.getBlockState(pos))) {
+            return false;
+        }
+        if (TwilightPortalConfigAccess.grega$disablePortalCreation()
+                || !player.hasPermissions(TwilightPortalConfigAccess.grega$portalCreationPermission())) return false;
+        if (!level.dimension().location().toString().equals(TwilightPortalConfigAccess.grega$originDimension())
+                && !TwilightDimensionAccess.grega$isDestination(level)
+                && !TwilightPortalConfigAccess.grega$allowOtherDimensions()) return false;
+        var required = TwilightPortalConfigAccess.grega$lockingAdvancement(player);
+        if (required != null && !player.isCreative()) {
+            var advancement = player.server.getAdvancements().get(required);
+            if (advancement != null && !player.getAdvancements().getOrStartProgress(advancement).isDone()) return false;
+        }
+        // Native validation checks the water pool, solid floor, border plants, size and safe destination.
+        // This unspawned entity is just the native API's context; the glyph replaces the diamond catalyst.
+        ItemEntity context = new ItemEntity(level, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, ItemStack.EMPTY);
+        return gateway.grega$openPortal(level, pos, context, player);
     }
 
     public static void travel(ServerPlayer player, Action action) {

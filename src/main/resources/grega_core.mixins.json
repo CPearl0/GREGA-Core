@@ -4,7 +4,13 @@
   "package": "io.github.cpearl0.grega.core.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "KubeColorMixin"
+    "KubeColorMixin",
+    "AetherPortalAccess",
+    "AetherPortalMixin",
+    "TwilightPortalMixin",
+    "TwilightPortalConfigAccess",
+    "TwilightDimensionAccess",
+    "BotaniaPortalMixin"
   ],
   "injectors": {
     "defaultRequire": 1

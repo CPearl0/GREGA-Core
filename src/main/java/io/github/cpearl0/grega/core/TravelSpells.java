@@ -16,11 +16,11 @@ import java.util.Set;
 
 /** Genuine Ars glyphs: learned at the Scribe's Table, assembled and cast in spell books. */
 public final class TravelSpells {
-    public static final TravelEffect NETHER_GATE = new TravelEffect("nether_gate", "Nether Gate", 80, null);
+    public static final TravelEffect OPEN_PORTAL = new TravelEffect("open_portal", "Open Portal", 80, null);
     public static final TravelEffect SET_HOME = new TravelEffect("set_home", "Set Home", 20, TravelMagic.Action.SET_HOME);
     public static final TravelEffect HOME = new TravelEffect("home", "Homeward", 80, TravelMagic.Action.HOME);
     public static final TravelEffect RTP = new TravelEffect("rtp", "Wander", 100, TravelMagic.Action.RTP);
-    public static final List<TravelEffect> ALL = List.of(NETHER_GATE, SET_HOME, HOME, RTP);
+    public static final List<TravelEffect> ALL = List.of(OPEN_PORTAL, SET_HOME, HOME, RTP);
 
     private TravelSpells() {}
 

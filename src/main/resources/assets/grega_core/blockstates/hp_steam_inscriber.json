@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "grega_core:block/machine/hp_steam_inscriber"
+    },
+    "facing=south": {
+      "model": "grega_core:block/machine/hp_steam_inscriber",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "grega_core:block/machine/hp_steam_inscriber",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "grega_core:block/machine/hp_steam_inscriber",
+      "y": 90
+    },
+    "facing=up": {
+      "model": "grega_core:block/machine/hp_steam_inscriber",
+      "x": 270,
+      "gtceu:z": 180
+    },
+    "facing=down": {
+      "model": "grega_core:block/machine/hp_steam_inscriber",
+      "x": 90
+    }
+  }
+}
