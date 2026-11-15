@@ -1,0 +1,6 @@
+{
+  "type": "botania:mana_infusion",
+  "input": { "item": "minecraft:book" },
+  "mana": 3000,
+  "output": { "id": "grega_core:mana_book", "count": 1 }
+}

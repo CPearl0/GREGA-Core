@@ -38,5 +38,21 @@
   "item.grega_core.glyph_rtp": "漫游刻符",
   "grega_core.travel.use_touch": "请用「接触 → 下界之门」瞄准黑曜石门框内侧。",
   "grega_core.travel.use_self": "设置家、归家和漫游效果需要「自身」施法方式。",
-  "grega_core.circuit.rating": "%s级电路"
+  "grega_core.circuit.rating": "%s级电路",
+  "grega_core.electric_inscriber.tooltip": "使用电力制作 AE 处理器；模板不消耗，组装使用红色合金板；支持格雷标准超频。",
+  "block.grega_core.lv_inscriber": "LV压印机",
+  "block.grega_core.mv_inscriber": "MV压印机",
+  "block.grega_core.hv_inscriber": "HV压印机",
+  "block.grega_core.ev_inscriber": "EV压印机",
+  "block.grega_core.iv_inscriber": "IV压印机",
+  "block.grega_core.luv_inscriber": "LuV压印机",
+  "block.grega_core.zpm_inscriber": "ZPM压印机",
+  "block.grega_core.uv_inscriber": "UV压印机",
+  "block.grega_core.uhv_inscriber": "UHV压印机",
+  "block.grega_core.uev_inscriber": "UEV压印机",
+  "block.grega_core.uiv_inscriber": "UIV压印机",
+  "block.grega_core.uxv_inscriber": "UXV压印机",
+  "block.grega_core.opv_inscriber": "OpV压印机",
+  "item.grega_core.mana_book": "魔力书",
+  "material.grega_core.manasteel": "魔力钢"
 }

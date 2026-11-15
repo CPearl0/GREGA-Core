@@ -56,6 +56,9 @@ public final class PackRecipeChanges {
         }) remove.accept(ResourceLocation.parse(id));
         remove.accept(ResourceLocation.parse("gtceu:shaped/vacuum_tube"));
         remove.accept(ResourceLocation.parse("gtceu:shaped/electronic_circuit_lv"));
+        // Bronze powder must be mixed in Create's basin, including after the electric mixer unlocks.
+        remove.accept(ResourceLocation.parse("gtceu:shapeless/dust_bronze"));
+        remove.accept(ResourceLocation.parse("gtceu:mixer/bronze"));
         // Keep machine-made hammers, but require Create-pressed plates for the first hand tool.
         for (var material : GTCEuAPI.materialManager) {
             remove.accept(ResourceLocation.parse("gtceu:shaped/hammer_" + material.getName()));

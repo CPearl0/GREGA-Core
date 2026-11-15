@@ -1,14 +1,18 @@
 package io.github.cpearl0.grega.core;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
 import com.gregtechceu.gtceu.api.multiblock.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.machine.RotationState;
+import com.gregtechceu.gtceu.data.machine.GTMachineUtils;
+import com.gregtechceu.gtceu.data.recipe.GTRecipeModifiers;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -22,13 +26,15 @@ import net.minecraft.world.item.CreativeModeTab.TabVisibility;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import java.util.Locale;
 
 import static io.github.cpearl0.grega.core.GregaAddon.REGISTRATE;
 
-/** Small GT addon: one steam recipe map, one machine, and pack-specific circuit items. */
+/** Shared steam/electric inscribing recipe map and pack-specific circuit items. */
 public final class CoreContent {
     public static GTRecipeType INSCRIBING;
     public static MachineDefinition STEAM_INSCRIBER;
+    public static final MachineDefinition[] ELECTRIC_INSCRIBERS = new MachineDefinition[GTValues.TIER_COUNT];
     private static boolean registered;
 
     private CoreContent() {}
@@ -40,7 +46,8 @@ public final class CoreContent {
     public static void register(RegisterEvent event) {
         if (registered) return;
         registered = true;
-        for (String name : new String[] { "basic_electronic_component", "germanium_press",
+        CoreMaterials.register();
+        for (String name : new String[] { "basic_electronic_component", "germanium_press", "mana_book",
                 "via_substrate", "bonded_nano_die", "multilayer_interconnect",
                 "laminated_nano_processor", "laminated_nano_processor_assembly",
                 "laminated_nano_processor_computer", "laminated_nano_processor_mainframe" }) {
@@ -60,6 +67,20 @@ public final class CoreContent {
                 .workableSteamHullModel(false, ResourceLocation.fromNamespaceAndPath("gtceu", "block/machines/compressor"))
                 .tooltips(Component.translatable("grega_core.inscriber.tooltip"))
                 .register();
+        // Follow GT's enabled electric tiers, hull storage and ordinary overclocking.
+        for (int tier : GTMachineUtils.ELECTRIC_TIERS) {
+            ELECTRIC_INSCRIBERS[tier] = REGISTRATE
+                    .machine(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_inscriber",
+                            holder -> new SimpleTieredMachine(holder, tier, GTMachineUtils.defaultTankSizeFunction))
+                    .tier(tier).rotationState(RotationState.NON_Y_AXIS)
+                    .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(id("inscriber"), INSCRIBING))
+                    .recipeType(INSCRIBING).recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+                    .workableTieredHullModel(ResourceLocation.parse("gtceu:block/machines/forming_press"))
+                    .tooltips(GTMachineUtils.workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64,
+                            INSCRIBING, GTMachineUtils.defaultTankSizeFunction.applyAsInt(tier), true))
+                    .tooltips(Component.translatable("grega_core.electric_inscriber.tooltip"))
+                    .register();
+        }
         INSCRIBING.setIconSupplier(() -> STEAM_INSCRIBER.asStack());
     }
 
@@ -70,12 +91,15 @@ public final class CoreContent {
                     TabVisibility.PARENT_AND_SEARCH_TABS);
             for (var key : BuiltInRegistries.ITEM.keySet()) {
                 if (key.getNamespace().equals(GregaCore.MOD_ID) && !key.getPath().startsWith("glyph_")
-                        && !key.getPath().equals("steam_inscriber")) {
+                        && !key.getPath().endsWith("_inscriber")) {
                     event.accept(BuiltInRegistries.ITEM.get(key));
                 }
             }
         } else if (tab.equals(ResourceLocation.parse("gtceu:machine"))) {
             event.accept(STEAM_INSCRIBER.asStack());
+            for (var machine : ELECTRIC_INSCRIBERS) {
+                if (machine != null) event.accept(machine.asStack());
+            }
         }
     }
 

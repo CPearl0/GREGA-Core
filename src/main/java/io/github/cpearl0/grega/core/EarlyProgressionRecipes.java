@@ -1,6 +1,11 @@
 package io.github.cpearl0.grega.core;
 
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
+import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
+import com.gregtechceu.gtceu.data.tag.CustomTags;
+import com.gregtechceu.gtceu.api.material.material.stack.MaterialEntry;
+import com.gregtechceu.gtceu.api.tag.TagPrefix;
+import com.gregtechceu.gtceu.data.material.GTMaterials;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -24,10 +29,21 @@ public final class EarlyProgressionRecipes {
         VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/pressed_iron_hammer"), stack("gtceu:iron_hammer"),
                 "PP ", "PPS", "PP ", 'P', item("create:iron_sheet"), 'S', tag("c:rods/wooden"));
         VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/steel_bound_spell_book"), stack("ars_nouveau:novice_spell_book"),
-                " S ", "SBS", " L ", 'S', tag("c:plates/steel"), 'B', item("minecraft:book"), 'L', tag("c:gems/lapis"));
+                "fMh", "SBS", "LGR", 'M', new MaterialEntry(TagPrefix.dust, CoreMaterials.MANASTEEL),
+                'S', tag("c:plates/steel"), 'B', item("grega_core:mana_book"),
+                'L', tag("c:dusts/lapis"), 'G', tag("c:dusts/gold"), 'R', tag("c:dusts/redstone"));
         VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/steam_inscriber"), stack("grega_core:steam_inscriber"),
-                "BPB", "CHC", "BwB", 'B', tag("c:plates/bronze"), 'P', item("minecraft:piston"),
-                'C', tag("c:plates/copper"), 'H', item("gtceu:bronze_machine_casing"));
+                "XPX", "XMX", "XPX", 'X', new MaterialEntry(TagPrefix.pipeSmallFluid, GTMaterials.Bronze),
+                'P', CustomTags.PISTONS, 'M', item("gtceu:bronze_machine_casing"));
+        // The forming press pattern: two pistons, two circuits, four cables and one tier-matched hull.
+        for (var machine : CoreContent.ELECTRIC_INSCRIBERS) {
+            if (machine == null) continue;
+            int tier = machine.getTier();
+            VanillaRecipeHelper.addShapedRecipe(out, true, CoreContent.id("machines/" + machine.getName()),
+                    machine.asStack(), "WPW", "CMC", "WPW",
+                    'M', GTCraftingComponents.HULL.get(tier), 'P', GTCraftingComponents.PISTON.get(tier),
+                    'C', GTCraftingComponents.CIRCUIT.get(tier), 'W', GTCraftingComponents.CABLE.get(tier));
+        }
         // GT's h/f/x/w symbols resolve the actual tool tags and preserve damaged crafting remainders.
         VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/basic_electronic_component"), stack("grega_core:basic_electronic_component"),
                 "hfx", "LCE", "RSR", 'L', item("ae2:logic_processor"), 'C', item("ae2:calculation_processor"),

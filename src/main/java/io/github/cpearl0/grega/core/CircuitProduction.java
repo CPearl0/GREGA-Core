@@ -60,16 +60,17 @@ public final class CircuitProduction {
         recipe(FORMING_PRESS_RECIPES, "early_nano_die", "gtceu:nano_cpu_chip", 2, 120, 100,
                 "gtceu:cpu_chip", "2 gtceu:carbon_fibers").save(out);
         circuit(out, "nano_processor", "gtceu:nano_processor", 2, 120, 100, 36,
-                "gtceu:plastic_printed_circuit_board", "gtceu:nano_cpu_chip", "2 #gtceu:transistors",
+                "gtceu:plastic_printed_circuit_board", "gtceu:nano_cpu_chip", "2 #gtceu:resistors", "2 #gtceu:transistors",
                 "2 #gtceu:capacitors", "4 gtceu:fine_electrum_wire");
         circuit(out, "nano_assembly", "gtceu:nano_processor_assembly", 2, 120, 160, 72,
-                "gtceu:plastic_printed_circuit_board", "8 #gtceu:transistors", "2 #gtceu:inductors",
+                "gtceu:plastic_printed_circuit_board", "2 gtceu:nano_processor", "2 #gtceu:inductors", "8 #gtceu:capacitors",
                 "4 gtceu:ram_chip", "4 gtceu:fine_electrum_wire");
         circuit(out, "nano_computer", "gtceu:nano_processor_computer", 1, 120, 200, 72,
-                "2 gtceu:nano_processor_assembly", "4 #gtceu:diodes", "8 gtceu:ram_chip",
+                "gtceu:plastic_printed_circuit_board", "2 gtceu:nano_processor_assembly", "4 #gtceu:diodes",
+                "4 gtceu:nor_memory_chip", "8 gtceu:ram_chip",
                 "8 gtceu:fine_electrum_wire");
         circuit(out, "nano_mainframe", "gtceu:nano_processor_mainframe", 1, 480, 300, 144,
-                "gtceu:aluminium_frame", "2 gtceu:nano_processor_computer", "4 #gtceu:inductors",
+                "2 gtceu:aluminium_frame", "2 gtceu:nano_processor_computer", "4 #gtceu:inductors", "8 #gtceu:capacitors",
                 "8 gtceu:ram_chip", "8 gtceu:annealed_copper_single_wire");
 
         // Heavy but fully GregTech: drill vias, bond dies, then laminate the routing layers.
@@ -81,19 +82,20 @@ public final class CircuitProduction {
         recipe(ASSEMBLER_RECIPES, "multilayer_interconnect", "grega_core:multilayer_interconnect", 1, 120, 900,
                 "4 grega_core:via_substrate", "16 gtceu:copper_foil", "4 gtceu:polyethylene_plate",
                 "8 gtceu:fine_gold_wire").inputFluids(SolderingAlloy.getFluid(288)).save(out);
-        circuit(out, "compute_unit", "grega_core:laminated_nano_processor", 1, 120, 1200, 288,
-                "grega_core:multilayer_interconnect", "2 grega_core:bonded_nano_die", "8 #gtceu:transistors",
-                "8 #gtceu:capacitors", "8 gtceu:fine_electrum_wire", "8 gtceu:ram_chip");
-        circuit(out, "processor_core", "grega_core:laminated_nano_processor_assembly", 1, 480, 1600, 576,
-                "4 grega_core:laminated_nano_processor", "2 grega_core:multilayer_interconnect",
-                "8 #gtceu:inductors", "16 gtceu:ram_chip", "16 gtceu:fine_electrum_wire",
-                "4 gtceu:stainless_steel_plate");
-        circuit(out, "multicore_processor", "grega_core:laminated_nano_processor_computer", 1, 1920, 2000, 1152,
-                "4 grega_core:laminated_nano_processor_assembly", "4 grega_core:multilayer_interconnect",
-                "16 gtceu:ram_chip", "16 #gtceu:diodes", "32 gtceu:fine_platinum_wire", "4 gtceu:titanium_plate");
-        circuit(out, "laminated_mainframe", "grega_core:laminated_nano_processor_mainframe", 1, 7680, 2400, 2304,
-                "4 grega_core:laminated_nano_processor_computer", "8 grega_core:multilayer_interconnect",
-                "4 gtceu:tungsten_steel_frame", "32 gtceu:ram_chip", "32 #gtceu:capacitors",
-                "32 gtceu:platinum_single_wire");
+        // Keep GT's family structure: PCB for stages 1-3, two frames for stage 4.
+        // Stage 1 makes two; upgrades always consume two and produce 2 / 1 / 1.
+        // Interconnect fabrication carries the 3D process cost, rather than extra PCBs at every upgrade.
+        circuit(out, "compute_unit", "grega_core:laminated_nano_processor", 2, 120, 1200, 288,
+                "grega_core:multilayer_interconnect", "2 grega_core:bonded_nano_die", "8 #gtceu:resistors",
+                "8 #gtceu:transistors", "8 #gtceu:capacitors", "8 gtceu:fine_electrum_wire");
+        circuit(out, "processor_core", "grega_core:laminated_nano_processor_assembly", 2, 480, 1600, 576,
+                "grega_core:multilayer_interconnect", "2 grega_core:laminated_nano_processor",
+                "8 #gtceu:inductors", "16 #gtceu:capacitors", "16 gtceu:ram_chip", "16 gtceu:fine_electrum_wire");
+        circuit(out, "multicore_processor", "grega_core:laminated_nano_processor_computer", 1, 1920, 2000, 576,
+                "grega_core:multilayer_interconnect", "2 grega_core:laminated_nano_processor_assembly",
+                "8 #gtceu:diodes", "4 gtceu:nor_memory_chip", "32 gtceu:ram_chip", "32 gtceu:fine_electrum_wire");
+        circuit(out, "laminated_mainframe", "grega_core:laminated_nano_processor_mainframe", 1, 7680, 2400, 1152,
+                "2 gtceu:tungsten_steel_frame", "2 grega_core:laminated_nano_processor_computer",
+                "16 #gtceu:inductors", "32 #gtceu:capacitors", "32 gtceu:ram_chip", "32 gtceu:annealed_copper_single_wire");
     }
 }

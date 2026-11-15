@@ -38,5 +38,21 @@
   "item.grega_core.glyph_rtp": "Wander Glyph",
   "grega_core.travel.use_touch": "Use Touch → Nether Gate on the inner face of an obsidian frame.",
   "grega_core.travel.use_self": "Travel effects require the Self cast method.",
-  "grega_core.circuit.rating": "%s-Tier Circuit"
+  "grega_core.circuit.rating": "%s-Tier Circuit",
+  "grega_core.electric_inscriber.tooltip": "Makes AE processors using EU; presses are reusable, assembly uses Red Alloy plates; supports standard GT overclocking.",
+  "block.grega_core.lv_inscriber": "LV Inscriber",
+  "block.grega_core.mv_inscriber": "MV Inscriber",
+  "block.grega_core.hv_inscriber": "HV Inscriber",
+  "block.grega_core.ev_inscriber": "EV Inscriber",
+  "block.grega_core.iv_inscriber": "IV Inscriber",
+  "block.grega_core.luv_inscriber": "LuV Inscriber",
+  "block.grega_core.zpm_inscriber": "ZPM Inscriber",
+  "block.grega_core.uv_inscriber": "UV Inscriber",
+  "block.grega_core.uhv_inscriber": "UHV Inscriber",
+  "block.grega_core.uev_inscriber": "UEV Inscriber",
+  "block.grega_core.uiv_inscriber": "UIV Inscriber",
+  "block.grega_core.uxv_inscriber": "UXV Inscriber",
+  "block.grega_core.opv_inscriber": "OpV Inscriber",
+  "item.grega_core.mana_book": "Mana-infused Book",
+  "material.grega_core.manasteel": "Manasteel"
 }
