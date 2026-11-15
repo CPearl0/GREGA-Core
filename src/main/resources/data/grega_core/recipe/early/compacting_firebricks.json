@@ -1,0 +1,17 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    { "item": "gtceu:firebrick" },
+    { "item": "gtceu:firebrick" },
+    { "item": "gtceu:firebrick" },
+    { "item": "gtceu:firebrick" },
+    { "item": "gtceu:firebrick" },
+    { "item": "gtceu:firebrick" },
+    { "tag": "c:dusts/gypsum" },
+    { "tag": "c:dusts/gypsum" },
+    { "type": "neoforge:single", "fluid": "gtceu:concrete", "amount": 1000 }
+  ],
+  "results": [
+    { "id": "gtceu:firebricks", "count": 1 }
+  ]
+}
