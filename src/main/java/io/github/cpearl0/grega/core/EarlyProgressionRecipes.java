@@ -22,15 +22,35 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Map;
+
 import static io.github.cpearl0.grega.core.CoreContent.item;
 
 /** Create plates, steam processors, then steel-bound Ars travel. */
 public final class EarlyProgressionRecipes {
+    static final Map<String, String> PETAL_APOTHECARIES = Map.ofEntries(
+            Map.entry("petal_apothecary", "minecraft:cobblestone"),
+            Map.entry("mossy_petal_apothecary", "minecraft:mossy_cobblestone"),
+            Map.entry("livingrock_petal_apothecary", "botania:livingrock"),
+            Map.entry("deepslate_petal_apothecary", "minecraft:cobbled_deepslate"),
+            Map.entry("blackstone_petal_apothecary", "minecraft:blackstone"),
+            Map.entry("nether_brick_petal_apothecary", "minecraft:nether_bricks"),
+            Map.entry("red_nether_brick_petal_apothecary", "minecraft:red_nether_bricks"),
+            Map.entry("cataclasite_petal_apothecary", "botania:cobbled_cataclasite"),
+            Map.entry("fuchsite_petal_apothecary", "botania:cobbled_fuchsite"),
+            Map.entry("gneiss_petal_apothecary", "botania:cobbled_gneiss"),
+            Map.entry("lunite_petal_apothecary", "botania:cobbled_lunite"),
+            Map.entry("mycelite_petal_apothecary", "botania:cobbled_mycelite"),
+            Map.entry("rosy_talc_petal_apothecary", "botania:cobbled_rosy_talc"),
+            Map.entry("solite_petal_apothecary", "botania:cobbled_solite"),
+            Map.entry("talc_petal_apothecary", "botania:cobbled_talc"));
+
     private EarlyProgressionRecipes() {}
     private static ItemStack stack(String id) { return item(id).getDefaultInstance(); }
     private static TagKey<Item> tag(String id) { return TagKey.create(Registries.ITEM, ResourceLocation.parse(id)); }
 
     public static void addRecipes(RecipeOutput out) {
+        addPetalApothecaryRecipes(out);
         VanillaRecipeHelper.addShapelessRecipe(out, CoreContent.id("early/iron_nuggets"),
                 new ItemStack(item("minecraft:iron_nugget"), 9), tag("c:ingots/iron"));
         // A mortar route is needed before the first Create press and GT forge hammer exist.
@@ -101,6 +121,15 @@ public final class EarlyProgressionRecipes {
                 "RPR", "VBV", "CCC", 'R', item("gtceu:resistor"), 'P', tag("c:plates/steel"),
                 'V', item("grega_core:basic_electronic_component"), 'B', item("gtceu:resin_printed_circuit_board"),
                 'C', item("gtceu:red_alloy_single_cable"));
+    }
+
+    private static void addPetalApothecaryRecipes(RecipeOutput out) {
+        // Preserve each native stone and petal ingredient, filling only its two empty slots.
+        for (var entry : PETAL_APOTHECARIES.entrySet()) {
+            VanillaRecipeHelper.addShapedRecipe(out, CoreContent.id("early/" + entry.getKey()),
+                    stack("botania:" + entry.getKey()), "CPC", "fCh", "CCC",
+                    'C', item(entry.getValue()), 'P', tag("botania:petals"));
+        }
     }
 
     private static void addPlateHammerRecipes(RecipeOutput out) {

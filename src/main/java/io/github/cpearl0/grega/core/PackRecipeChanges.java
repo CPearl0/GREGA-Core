@@ -69,6 +69,9 @@ public final class PackRecipeChanges {
                 "ae2:inscriber/sky_stone_dust",
                 "ae2:network/blocks/inscribers"
         }) remove.accept(ResourceLocation.parse(id));
+        for (String name : EarlyProgressionRecipes.PETAL_APOTHECARIES.keySet()) {
+            remove.accept(ResourceLocation.fromNamespaceAndPath("botania", name));
+        }
         remove.accept(ResourceLocation.parse("gtceu:shaped/vacuum_tube"));
         remove.accept(ResourceLocation.parse("gtceu:shaped/electronic_circuit_lv"));
         // Bronze powder must be mixed in Create's basin, including after the electric mixer unlocks.
