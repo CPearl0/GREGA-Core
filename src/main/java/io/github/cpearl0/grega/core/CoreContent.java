@@ -50,6 +50,9 @@ public final class CoreContent {
         if (registered) return;
         registered = true;
         CoreMaterials.register();
+        GrindingBallCondition.register();
+        REGISTRATE.item("elementium_grinding_ball", Item::new)
+                .properties(properties -> properties.durability(GrindingBalls.DURABILITY)).register();
         for (String name : new String[] { "basic_electronic_component", "germanium_press", "mana_book",
                 "via_substrate", "bonded_nano_die", "multilayer_interconnect",
                 "laminated_nano_processor", "laminated_nano_processor_assembly",

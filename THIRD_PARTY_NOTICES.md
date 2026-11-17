@@ -6,6 +6,7 @@ The following assets are derived from [GregTech CEu Modern, v7.0.2-1.21.1](https
 
 - `assets/grega_core/textures/item/laminated_nano_*.png` and the mainframe animation metadata: original nano circuit artwork with one extra stacked layer and purple chip accents, modified for GREGA.
 - `assets/grega_core/textures/item/basic_electronic_component.png`: original basic electronic circuit artwork redrawn at a smaller size with four single-pixel pin contacts, modified for GREGA.
+- `assets/grega_core/textures/item/elementium_grinding_ball.png`: the metallic round item texture recolored for Elementium and enlarged, with a redrawn circular outline and finer spherical shading.
 - `assets/grega_core/models/block/machine/*_inscriber.json`, `*_steam_mixer.json`, the corresponding item models and blockstates: GT forming press, steam compressor and mixer model templates adapted to GREGA's namespace and machine identities.
 - `assets/gtceu/models/block/machine/template/generator_machine.json`: the original generator model template, with the legacy `forge_data` key corrected to `neoforge_data` so NeoForge 1.21.1 can load it. Geometry, textures and tint indices are unchanged.
 

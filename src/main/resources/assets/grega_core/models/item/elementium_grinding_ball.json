@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "grega_core:item/elementium_grinding_ball"
+  }
+}

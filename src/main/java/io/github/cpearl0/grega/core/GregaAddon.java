@@ -29,6 +29,7 @@ public final class GregaAddon implements IGTAddon {
         EarlyProgressionRecipes.addRecipes(output);
         TotemicRecipes.addRecipes(output);
         AEQuartzRecipes.addRecipes(output);
+        GrindingBalls.addRecipes(output);
         CoreContent.addRecipes(output);
     }
 

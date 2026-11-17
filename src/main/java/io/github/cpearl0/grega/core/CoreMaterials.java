@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 /** Register before GT freezes materials and generates their item forms. */
 public final class CoreMaterials {
     public static Material MANASTEEL;
+    public static Material ELEMENTIUM;
     public static Material ANDESITE_ALLOY;
 
     private CoreMaterials() {}
@@ -25,6 +26,15 @@ public final class CoreMaterials {
         TagPrefix.nugget.setIgnored(MANASTEEL, () -> CoreContent.item("botania:manasteel_nugget"));
         TagPrefix.block.setIgnored(MANASTEEL,
                 () -> BuiltInRegistries.BLOCK.get(ResourceLocation.parse("botania:manasteel_block")));
+
+        ELEMENTIUM = new Material.Builder(CoreContent.id("elementium"))
+                .ingot().color(0xE970A6).iconSet(MaterialIconSet.METALLIC)
+                .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_ROD, MaterialFlags.MORTAR_GRINDABLE)
+                .buildAndRegister();
+        TagPrefix.ingot.setIgnored(ELEMENTIUM, () -> CoreContent.item("botania:elementium_ingot"));
+        TagPrefix.nugget.setIgnored(ELEMENTIUM, () -> CoreContent.item("botania:elementium_nugget"));
+        TagPrefix.block.setIgnored(ELEMENTIUM,
+                () -> BuiltInRegistries.BLOCK.get(ResourceLocation.parse("botania:elementium_block")));
 
         ANDESITE_ALLOY = new Material.Builder(CoreContent.id("andesite_alloy"))
                 .ingot().color(0x8A9C87).iconSet(MaterialIconSet.ROUGH)

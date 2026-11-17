@@ -29,6 +29,7 @@ public final class PackRecipeChanges {
                 if (upstream != null) upstream.accept(builder, output);
             });
         }
+        GrindingBalls.install();
     }
 
     public static void removeRecipes(Consumer<ResourceLocation> remove) {

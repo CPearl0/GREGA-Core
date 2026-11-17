@@ -15,6 +15,7 @@ public final class GregaCore {
         TravelSpells.register();
         modBus.addListener((FMLCommonSetupEvent event) -> event.enqueueWork(PackRecipeChanges::install));
         modBus.addListener(CoreContent::register);
+        modBus.addListener(PeriodicTableMaterials::modify);
         modBus.addListener(CoreContent::creativeTab);
         NeoForge.EVENT_BUS.addListener(CoreTooltips::add);
         NeoForge.EVENT_BUS.addListener(TravelMagic::portalSpawn);
